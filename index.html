@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gojo Saturo | Limitless Cursed Energy Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-six-eyes">
+  <!-- Cursed Energy Particle Canvas -->
+  <canvas id="cursed-canvas"></canvas>
+
+  <!-- Domain Expansion Visual Overlay -->
+  <div id="domain-overlay" class="domain-overlay">
+    <div class="domain-portal">
+      <div class="domain-eye"></div>
+      <div class="domain-kanji">無量空処</div>
+      <div class="domain-subtitle">UNLIMITED VOID</div>
+    </div>
+  </div>
+
+  <!-- Hollow Purple Collision Overlay -->
+  <div id="purple-overlay" class="purple-overlay">
+    <div class="technique-orb blue-orb"></div>
+    <div class="technique-orb red-orb"></div>
+    <div class="purple-flash"></div>
+    <div class="purple-title">虚式「茈」 HOLLOW PURPLE</div>
+  </div>
+
+  <div class="calculator-wrapper">
+    <!-- Top Sorcerer Header -->
+    <header class="calc-header">
+      <div class="brand-badge">
+        <div class="six-eyes-icon">
+          <span class="pupil left"></span>
+          <span class="pupil right"></span>
+        </div>
+        <div class="brand-text">
+          <div class="brand-title">GOJO SATURO</div>
+          <div class="brand-sub">五条 悟 • SPECIAL GRADE SORCERER</div>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <!-- Voice Quotes Toggle -->
+        <button id="btn-quote" class="hud-btn" title="Gojo Quote" aria-label="Play Voice Line">
+          <span class="icon">💬</span>
+          <span class="hud-label">QUOTE</span>
+        </button>
+
+        <!-- Sound FX Toggle -->
+        <button id="btn-audio" class="hud-btn active" title="Toggle Sound FX" aria-label="Toggle Sound">
+          <span class="icon" id="audio-icon">🔊</span>
+          <span class="hud-label">AUDIO</span>
+        </button>
+
+        <!-- History Drawer Toggle -->
+        <button id="btn-history" class="hud-btn" title="Calculation History" aria-label="History">
+          <span class="icon">📜</span>
+          <span class="hud-label">LOG</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Sorcerer Technique Selector & Status Bar -->
+    <section class="technique-bar">
+      <div class="theme-pills">
+        <button class="pill active" data-theme="theme-six-eyes" title="Six Eyes (Cyan Infinity)">
+          <span class="pill-dot cyan"></span>六眼 Six Eyes
+        </button>
+        <button class="pill" data-theme="theme-blue" title="Cursed Technique Lapse: Blue">
+          <span class="pill-dot blue"></span>蒼 Blue
+        </button>
+        <button class="pill" data-theme="theme-red" title="Cursed Technique Reversal: Red">
+          <span class="pill-dot red"></span>赫 Red
+        </button>
+        <button class="pill" data-theme="theme-purple" title="Secret Art: Hollow Purple">
+          <span class="pill-dot purple"></span>茈 Purple
+        </button>
+      </div>
+
+      <!-- Domain Expansion Trigger -->
+      <button id="btn-domain" class="domain-btn" title="Expand Unlimited Void">
+        <span class="domain-spark">✦</span> 領域展開 Domain
+      </button>
+    </section>
+
+    <!-- Energy Meter -->
+    <div class="energy-status">
+      <div class="energy-label">
+        <span>CURSED ENERGY DENSITY</span>
+        <span id="energy-percentage">100% • INFINITY</span>
+      </div>
+      <div class="energy-bar-track">
+        <div id="energy-fill" class="energy-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Main Calculator Body -->
+    <main class="calc-card">
+      <!-- Quote Floating Display -->
+      <div id="quote-banner" class="quote-banner">
+        <span class="quote-kanji">「大丈夫、僕 最強だから」</span>
+        <span class="quote-text">"Don't worry, I'm the strongest."</span>
+      </div>
+
+      <!-- Display Section -->
+      <section class="calc-display-panel">
+        <div class="display-mode-row">
+          <button id="btn-angle-mode" class="mode-tag active" title="Toggle RAD/DEG">DEG</button>
+          <span id="badge-infinity" class="limitless-badge hidden">∞ LIMITLESS ACTIVE</span>
+          <span id="memory-indicator" class="mode-tag hidden">M</span>
+        </div>
+        
+        <!-- Equation / History preview line -->
+        <div id="display-history" class="display-history" title="Active Equation">0</div>
+
+        <!-- Main output line -->
+        <div class="display-main-wrap">
+          <span class="cursor-glow"></span>
+          <div id="display-current" class="display-current" tabindex="0">0</div>
+        </div>
+      </section>
+
+      <!-- Mode Tabs: Standard vs Scientific -->
+      <div class="calc-mode-switch">
+        <button id="tab-std" class="tab-btn active">Standard</button>
+        <button id="tab-sci" class="tab-btn">Limitless (Scientific)</button>
+        <button id="btn-hollow-blast" class="technique-blast-btn" title="Trigger Hollow Purple blast">
+          ⚡ HOLLOW PURPLE
+        </button>
+      </div>
+
+      <!-- Scientific Keypad Drawer (Collapsible) -->
+      <div id="scientific-keypad" class="keypad-scientific hidden">
+        <button class="key key-sci" data-action="sin">sin</button>
+        <button class="key key-sci" data-action="cos">cos</button>
+        <button class="key key-sci" data-action="tan">tan</button>
+        <button class="key key-sci" data-action="log">log</button>
+        <button class="key key-sci" data-action="ln">ln</button>
+
+        <button class="key key-sci" data-action="sqrt">√x</button>
+        <button class="key key-sci" data-action="square">x²</button>
+        <button class="key key-sci" data-action="power">x^y</button>
+        <button class="key key-sci" data-action="fact">x!</button>
+        <button class="key key-sci" data-action="inv">1/x</button>
+
+        <button class="key key-sci" data-action="pi">π</button>
+        <button class="key key-sci" data-action="euler">e</button>
+        <button class="key key-sci" data-action="paren-open">(</button>
+        <button class="key key-sci" data-action="paren-close">)</button>
+        <button class="key key-sci" data-action="abs">|x|</button>
+      </div>
+
+      <!-- Memory Keypad Row -->
+      <div class="keypad-memory">
+        <button class="key key-mem" data-action="mc">MC</button>
+        <button class="key key-mem" data-action="mr">MR</button>
+        <button class="key key-mem" data-action="m-plus">M+</button>
+        <button class="key key-mem" data-action="m-minus">M−</button>
+        <button class="key key-mem" data-action="infinity" title="Enter Infinity (Limitless)">∞</button>
+      </div>
+
+      <!-- Standard Grid Keypad -->
+      <div class="keypad-standard">
+        <!-- Row 1 -->
+        <button class="key key-danger" data-action="clear-all" title="All Clear [Esc]">AC</button>
+        <button class="key key-func" data-action="backspace" title="Backspace [⌫]">⌫</button>
+        <button class="key key-op" data-action="op" data-value="%" title="Modulo / Percent [ % ]">%</button>
+        <button class="key key-op" data-action="op" data-value="/" title="Divide [ / ]">÷</button>
+
+        <!-- Row 2 -->
+        <button class="key key-num" data-action="num" data-value="7">7</button>
+        <button class="key key-num" data-action="num" data-value="8">8</button>
+        <button class="key key-num" data-action="num" data-value="9">9</button>
+        <button class="key key-op" data-action="op" data-value="*" title="Multiply [ * ]">×</button>
+
+        <!-- Row 3 -->
+        <button class="key key-num" data-action="num" data-value="4">4</button>
+        <button class="key key-num" data-action="num" data-value="5">5</button>
+        <button class="key key-num" data-action="num" data-value="6">6</button>
+        <button class="key key-op" data-action="op" data-value="-" title="Subtract [ - ]">−</button>
+
+        <!-- Row 4 -->
+        <button class="key key-num" data-action="num" data-value="1">1</button>
+        <button class="key key-num" data-action="num" data-value="2">2</button>
+        <button class="key key-num" data-action="num" data-value="3">3</button>
+        <button class="key key-op" data-action="op" data-value="+" title="Add [ + ]">+</button>
+
+        <!-- Row 5 -->
+        <button class="key key-func" data-action="negate" title="Negate [ ± ]">±</button>
+        <button class="key key-num" data-action="num" data-value="0">0</button>
+        <button class="key key-num" data-action="decimal">.</button>
+        <button class="key key-equal" data-action="equals" title="Calculate [Enter]">=</button>
+      </div>
+    </main>
+
+    <!-- Sorcerer Quote / Status Footer -->
+    <footer class="calc-footer">
+      <div class="footer-left">
+        <span class="status-indicator"></span>
+        <span>BARRIER: <strong>LIMITLESS ACTIVE</strong></span>
+      </div>
+      <div class="footer-right">
+        <span>"THROUGHOUT HEAVEN AND EARTH, I ALONE AM THE HONORED ONE"</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Side History Drawer -->
+  <aside id="history-drawer" class="history-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span>📜</span> CURSED SCROLL (HISTORY)
+      </div>
+      <button id="btn-close-history" class="drawer-close-btn">&times;</button>
+    </div>
+    <div id="history-list" class="history-list">
+      <div class="history-empty">No calculations recorded yet in the Limitless domain.</div>
+    </div>
+    <div class="drawer-footer">
+      <button id="btn-clear-history" class="btn-clear-history">Exorcise History (Clear)</button>
+    </div>
+  </aside>
+
+  <script src="script.js"></script>
+</body>
+</html>
